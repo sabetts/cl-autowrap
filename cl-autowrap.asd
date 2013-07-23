@@ -22,3 +22,21 @@
    (:file "wrapper")
    (:file "parse")
    (:file "bitmask")))
+
+(defsystem :cl-autowrap-libffi
+  :description "self-generated libffi bindings"
+  :author "Ryan Pavlik"
+  :license "BSD-2-Clause"
+  :version "1.0"
+
+  :depends-on (:cl-autowrap)
+  :pathname "libffi"
+  :serial t
+
+  :components
+  ((:module libffi-spec
+    :pathname "spec"
+    :components
+    ((:static-file "libffi.h")))
+   (:file "package")
+   (:file "libffi-wrap")))
