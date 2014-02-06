@@ -317,9 +317,10 @@ Return the appropriate CFFI name."))
 
 (defun read-parse-forms (in-spec exclude-definitions exclude-sources include-sources)
   (loop for form in (read-json in-spec)
-        unless (or (included-p (aval :name form) exclude-definitions)
-                   (and (included-p (aval :location form) exclude-sources)
-                        (not (included-p (aval :location form) include-sources))))
+        when (and (or (null include-sources)
+                      (included-p (aval :location form) include-sources))
+                  (not (included-p (aval :location form) exclude-sources))
+                  (not (included-p (aval :name form) exclude-definitions)))
           collect (parse-form form (aval :tag form))))
 
 (defun make-define-list (def-symbol list package)
